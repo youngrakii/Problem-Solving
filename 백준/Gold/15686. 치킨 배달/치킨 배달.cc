@@ -49,8 +49,8 @@ int main() {
     for (int i = 0; i < widthHeight; i++) {
         for (int j = 0; j < widthHeight; j++) {
             cin >> input;
-            if (input == 1) { homePoint.push_back({ i + 1, j + 1 }); }
-            if (input == 2) { chickenPoint.push_back({ i + 1, j + 1 }); }
+            if (input == 1) { homePoint.push_back({ i, j}); }
+            if (input == 2) { chickenPoint.push_back({ i, j}); }
         }
     }
 
