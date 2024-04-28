@@ -49,8 +49,8 @@ int main() {
     for (int i = 0; i < widthHeight; i++) {
         for (int j = 0; j < widthHeight; j++) {
             cin >> input;
-            if (input == 1) { homePoint.push_back({ i + 1, j + 1 }); } // 좌표를 1부터 시작하도록 수정
-            if (input == 2) { chickenPoint.push_back({ i + 1, j + 1 }); } // 좌표를 1부터 시작하도록 수정
+            if (input == 1) { homePoint.push_back({ i + 1, j + 1 }); }
+            if (input == 2) { chickenPoint.push_back({ i + 1, j + 1 }); }
         }
     }
 
