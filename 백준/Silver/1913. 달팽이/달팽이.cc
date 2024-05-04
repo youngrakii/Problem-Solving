@@ -7,8 +7,8 @@ int dx[] = { -1, 0, 1, 0 }; // 상 우 좌 하
 int dy[] = { 0, 1, 0, -1 };
 
 int main() {
-    //ios_base::sync_with_stdio(0);
-    //cin.tie(0); cout.tie(0);
+    ios_base::sync_with_stdio(0);
+    cin.tie(0); cout.tie(0);
 
     int N, M;
     cin >> N >> M;
@@ -47,7 +47,7 @@ int main() {
                 ans_x = i + 1; ans_y = j + 1;
             }
         }
-        cout << "\n";
+        cout << endl;
     }
     cout << ans_x << " " << ans_y;
     return 0;
