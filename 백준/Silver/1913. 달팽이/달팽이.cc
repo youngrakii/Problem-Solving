@@ -47,7 +47,7 @@ int main() {
                 ans_x = i + 1; ans_y = j + 1;
             }
         }
-        cout << endl;
+        cout << "\n";
     }
     cout << ans_x << " " << ans_y;
     return 0;
