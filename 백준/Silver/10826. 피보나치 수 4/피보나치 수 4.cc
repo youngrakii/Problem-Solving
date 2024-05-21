@@ -1,47 +1,50 @@
-#include <iostream>
-#include <cstring>
-#include <string>
-#include <algorithm>
-#include <vector>
+#include<iostream>
+#include<string>
+#include<vector>
+#include<algorithm>
 using namespace std;
-
-string sum(string x, string y)
-{
-	int num;
-	int carry = 0;
-	string result;
-	reverse(x.begin(), x.end());
-	reverse(y.begin(), y.end());
-	while (x.length() < y.length()) {
-		x += '0';
-	}
-	while (x.length() > y.length()) {
-		y += '0';
-	}
-
-	for (int i = 0; i < x.length(); ++i) {
-		num = (x[i] - '0' + y[i] - '0' + carry) % 10;
-		result += to_string(num);
-		carry = (x[i] - '0' + y[i] - '0' + carry) / 10;
-	}
-	if (carry != 0) {
-		result += to_string(carry);
-	}
-	reverse(result.begin(), result.end());
-	return result;
+string s_add(string s1, string s2){
+    string ret = "";
+    int s1len = s1.length(), s2len = s2.length();
+    int is_carry = 0;
+    int i;
+    for(i = 0; i<s2len; i++){
+        char s = s1[i]-'0' + s2[i] + is_carry;
+        if(s > '9'){
+            is_carry = 1;
+            s -= 10;
+        } else {
+            is_carry = 0;
+        }
+        ret += s;
+    }
+    for(int j=i; j<s1len; j++){
+        char s = s1[j] + is_carry;
+        if(s > '9'){
+            is_carry = 1;
+            s -= 10;
+        } else {
+            is_carry = 0;
+        }
+        ret += s;
+    }
+    if(is_carry){
+        ret += "1";
+    }
+    return ret;
 }
-
-int main(int argc, char* argv[])
-{
-	int n;
-	string DP[10010];
-	cin >> n;
-
-	DP[0] = '0';
-	DP[1] = '1';
-	for (int i = 2; i <= n; ++i) {
-		DP[i] = sum(DP[i - 1], DP[i - 2]);
-	}
-	cout << DP[n] << endl;
-	return 0;
+vector <string> v (10001);
+int main(){
+    int n;
+    cin>>n;
+    for(int i=0; i<=10000; i++){
+        v[i] = "0";
+    }
+    v[2] = v[1] = "1";
+    for(int i=3; i<=10000;i++){
+        v[i] = s_add(v[i-1], v[i-2]);
+    }
+    reverse(v[n].begin(), v[n].end());
+    cout<< v[n] <<endl;
+    return 0;
 }
