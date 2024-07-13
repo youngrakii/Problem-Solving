@@ -8,7 +8,7 @@ long long A[6];
 long long a, b, c;
 
 long long step1() {
-    long long val = min(min(a, b), c);
+    int val = min(min(a, b), c);
 
     return val * ((N - 1) * (N - 2) * 4 + (N - 2) * (N - 2));
 }
