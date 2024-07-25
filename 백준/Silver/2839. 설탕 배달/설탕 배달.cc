@@ -1,9 +1,9 @@
 #include <iostream>
 using namespace std;
 
+int n;
+int bag;
 int main(){
-    int n;
-    int bag=0;
     cin>>n;
     while(n>=0){
         if(n%5==0){
