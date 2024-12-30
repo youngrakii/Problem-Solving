@@ -1,68 +1,71 @@
+#define _CRT_SECURE_NO_WARNINGS
 #include <iostream>
-#include <queue>
+#include <cstdio>
 #include <algorithm>
 #include <vector>
-#define endl "\n";
-#define INF 2000000000 //처음에 x점까지의 최단거리
+#include <cstring>
+#include <string>
+#include <queue>
+#include <stack>
+#include <cmath>
+#define INF 987654321
 
 using namespace std;
 
-vector<int> graph[300001];
+queue<pair<int, int>> q;
+vector<pair<int, int>> line[300001];
+int check[300001];
+int Distance[300001];
+int N, M, K, start;
 
-vector<int> diijkstra(int vertex, int start) {
-	vector<int> distance(vertex, INF);
-	distance[start] = 0;
-	priority_queue <pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>> pq;
-	pq.push(make_pair(0, start));
-
-	while (pq.size() > 0) {
-		int cur = pq.top().second;
-		int cost = pq.top().first;
-		pq.pop();
-
-		if (distance[cur] < cost) {
-			continue;
-		}
-
-		for (int i = 0; i < graph[cur].size(); i++) {
-			int next = graph[cur][i];
-			int nCost = 1;
-
-			if (distance[next] < nCost + cost) {
-				continue;
+void bfs(int x) {
+	Distance[x] = 0;
+	q.push({ 0,x });
+	while (!q.empty()) {
+		int X = q.front().second;
+		int cost = q.front().first;
+		check[X] = 1;
+		q.pop();
+		for (int i = 0; i < line[X].size(); i++) {
+			int xx = line[X][i].first;
+			int Cost = line[X][i].second;
+			if (check[xx] == 0) {
+				if (Distance[xx] > Distance[X] + Cost) {
+					Distance[xx] = Distance[X] + Cost;
+					q.push({ Distance[xx],xx });
+				}
 			}
-
-			distance[next] = nCost + cost;
-			pq.push(make_pair(nCost + cost, next));
 		}
 	}
+}
 
-	return distance;
-
+void solve() {
+	vector<int> point;
+	for (int i = 1; i <= N; i++) Distance[i] = INF;
+	bfs(start);
+	for (int i = 1; i <= N; i++) {
+		if (Distance[i] == K) {
+			point.push_back(i);
+		}
+	}
+	if (point.size() == 0) cout << "-1";
+	else {
+		sort(point.begin(), point.end());
+		for (int i = 0; i < point.size(); i++) {
+			cout << point[i] << "\n";
+		}
+	}
 }
 
 int main() {
 	cin.tie(0);
 	cout.tie(0);
-	int n, m, k, x;
-	cin >> n >> m >> k >> x;
-	n++;
-	for (int i = 0; i < m; i++) {
-		int source, destination;
-		cin >> source >> destination;
-		graph[source].push_back(destination);
+	cin >> N >> M >> K >> start;
+	for (int i = 0; i < M; i++) {
+		int x, y;
+		cin >> x >> y;
+		line[x].push_back({ y,1 });
 	}
-	vector<int> answer = diijkstra(n, x);
-	int count = 0;
-	for (int i = 0; i < answer.size(); i++) {
-		if (answer[i] == k) {
-			count++;
-			cout << i << endl;
-		}
-	}
-	if (count == 0) {
-		cout << -1 << endl;
-	}
-
+	solve();
 	return 0;
 }
