@@ -8,18 +8,15 @@ vector<pair<int, int>> graph[1001];
 int dp[1001];
 
 int f(int node, int parent) {
-	// DP가 초기값일 경우
 	if (dp[node] == 0) {
 		int res = INF;
 
-		// node-childs 간의 다이너마이트 선택
 		int sum = 0;
 		int i;
 		for (i = 0; i < graph[node].size(); i++) {
 			int child = graph[node].at(i).first;
 			int childWeight = graph[node].at(i).second;
 			if (child == parent) {
-				// parent-node 간의 다이너마이트 선택
 				res = childWeight;
 				continue;
 			}
@@ -44,14 +41,12 @@ int main()
 	for (; T > 0;T--) {
 		cin >> N >> M;
 
-		// 초기화
 		int i;
 		for (i = 1; i < N + 1; i++) {
 			graph[i].clear();
 			dp[i] = 0;
 		}
 
-		// 입력
 		int a, b, c;
 		for (i = 0; i < M; i++) {
 			cin >> a >> b >> c;
@@ -59,8 +54,7 @@ int main()
 			graph[b].push_back({ a, c });
 		}
 
-		// 출력
-		cout << f(1, 1) << "\n";
+		cout << f(1, 0) << "\n";
 	}
 
 	return 0;
