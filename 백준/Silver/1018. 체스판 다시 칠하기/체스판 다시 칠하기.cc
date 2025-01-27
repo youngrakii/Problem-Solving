@@ -2,8 +2,8 @@
 
 using namespace std;
 
-char chess[51][51];
-char white_board[8][8] = {
+char arr[51][51];
+char white_arr[8][8] = {
 	'W','B','W','B','W','B','W','B',
 	'B','W','B','W','B','W','B','W',
 	'W','B','W','B','W','B','W','B',
@@ -13,7 +13,8 @@ char white_board[8][8] = {
 	'W','B','W','B','W','B','W','B',
 	'B','W','B','W','B','W','B','W'
 };
-char black_board[8][8] = {
+
+char black_arr[8][8] = {
 	'B','W','B','W','B','W','B','W',
 	'W','B','W','B','W','B','W','B',
 	'B','W','B','W','B','W','B','W',
@@ -24,22 +25,22 @@ char black_board[8][8] = {
 	'W','B','W','B','W','B','W','B'
 };
 
-int cmp_white(int x, int y) {
+int white_first(int x, int y) {
 	int result = 0;
 	for (int i = 0; i < 8; i++) {
 		for (int j = 0; j < 8; j++) {
-			if (chess[x + i][y + j] != white_board[i][j])
+			if (arr[x + i][y + j] != white_arr[i][j])
 				result++;
 		}
 	}
 	return result;
 }
 
-int cmp_black(int x, int y) {
+int black_first(int x, int y) {
 	int result = 0;
 	for (int i = 0; i < 8; i++) {
 		for (int j = 0; j < 8; j++) {
-			if (chess[x + i][y + j] != black_board[i][j])
+			if (arr[x + i][y + j] != black_arr[i][j])
 				result++;
 		}
 	}
@@ -47,37 +48,33 @@ int cmp_black(int x, int y) {
 }
 
 int main() {
-	ios::sync_with_stdio(0);
-	cin.tie(0);
-	cout.tie(0);
+	ios::sync_with_stdio(false);
+	cin.tie(NULL);
+	cout.tie(NULL);
+
+	int n, m, result = 64;
+	cin >> n >> m;
     
-	int N, M;
-	int answer = 64;
-	cin >> N >> M;
+	for (int i = 0; i < n; i++)
+		for (int j = 0; j < m; j++)
+			cin >> arr[i][j];
+
+	int t_white, t_black;
     
-	for (int i = 0; i < N; i++) {
-		for (int j = 0; j < M; j++) {
-			cin >> chess[i][j];
-		}
-	}
-    
-	int cnt_white = 0;
-	int cnt_black = 0;
-    
-	for (int i = 0; i <= N - 8; i++) {
-		for (int j = 0; j <= M - 8; j++) {
-			cnt_white = cmp_white(i, j);
-			cnt_black = cmp_black(i, j);
-			if (cnt_white < cnt_black) {
-				if (cnt_white < answer) {
-					answer = cnt_white;
-				}
+	for (int i = 0; i <= n - 8; i++) {
+		for (int j = 0; j <= m - 8; j++) {
+            
+			t_white = white_first(i, j);
+			t_black = black_first(i, j);
+            
+			if (t_white < t_black) {
+				result = (t_white < result) ? t_white : result;
 			}
+            
 			else {
-				if (cnt_black < answer)
-					answer = cnt_black;
+				result = (t_black < result) ? t_black : result;
 			}
 		}
 	}
-	cout << answer << '\n';
+	cout << result << '\n';
 }
