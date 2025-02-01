@@ -1,56 +1,121 @@
-#include <iostream>
-#include <map>
-#include <queue>
-#include <algorithm>
-#include <string>
-#define WH 3
-#define MAX 9
+#include <bits/stdc++.h>
 using namespace std;
 
-int dir[4][2] = { {-1,0},{1,0},{0,-1},{0,1} };
-string TARGET = "123456789";
+using ll = long long int;
+using ull = unsigned long long int;
+using pii = pair<int, int>;
+using pll = pair<long long int, long long int>;
+using vi = vector<int>;
+using vl = vector<long long int>;
+using vvi = vector<vector<int>>;
+using vvl = vector<vector<long long int>>;
+using vpii = vector<pair<int, int>>;
+using vpll = vector<pair<long long int, long long int>>;
+using vb = vector<bool>;
+using vvb = vector<vector<bool>>;
+using si = set<int>;
+using sl = set<long long int>;
+using ld = long double;
+#define all(x) (x).begin(), (x).end()
+#define rall(x) (x).rbegin(), (x).rend()
+#define rep(i, b, e) for (int i = b; i < e; i++)
+#define dcout cout << "debug: "
 
-int main() {
-	int p[WH][WH];
-	string chk;
-	for (int i = 0; i < WH; i++) {
-		for (int j = 0; j < WH; j++) {
-			cin >> p[i][j];
-			if (p[i][j] == 0) p[i][j] = 9;
-			chk += to_string(p[i][j]);
+
+int nxt() {
+	int input;
+	cin >> input;
+	return input;
+}
+ll nxtl() {
+	ll input;
+	cin >> input;
+	return input;
+}
+string nxts() {
+	string input;
+	cin >> input;
+	return input;
+}
+void printexit(ll a) {
+	cout << a;
+	exit(0);
+}
+void printyn(bool answer) {
+	cout << (answer ? "Yes" : "No") << '\n';
+}
+int toint(vvi& x) {
+	int res = 0, now = 1;
+	rep(i, 0, 3) {
+		rep(j, 0, 3) {
+			res += now * x[i][j];
+			now *= 9;
 		}
 	}
-    
-	queue<string> q;
-	map<string, int> visited;
-	q.push(chk);
-	visited[chk] = 0;
-    
-	while (!q.empty()) {
-		string curChk = q.front();
-		q.pop();
-		if (curChk == TARGET) break;
-		else {
-			int empty = curChk.find('9');//9위치 찾음
-			int x = empty/3, y = empty%3;
-			for (int i = 0; i < 4; i++) {//상하좌우 움직일수 있는곳 찾음
-				int nx = x + dir[i][0], ny = y + dir[i][1];
-				if (nx >= 0 && nx < WH && ny >= 0 && ny < WH) {
-					//9와의 위치와 스왑
-					string temp = curChk;
-					swap(temp[x*3+y], temp[nx*3+ny]);
-					//map에 이미 temp가 있는지 확인, 없으면 큐에 추가
-					if (!visited.count(temp)) {
-						visited[temp] = visited[curChk] + 1;
-						q.push(temp);
+	return res;
+}
+vvi tovvi(int x) {
+	vvi res(3, vi(3));
+	rep(i, 0, 3) {
+		rep(j, 0, 3) {
+			res[i][j] = x % 9;
+			x /= 9;
+		}
+	}
+	return res;
+}
+void Solve(int Testcase_Number) {
+	si vis;
+	vvi fin = {{1, 2, 3}, {4, 5, 6}, {7, 8, 0}};
+	vvi now(3, vi(3));
+	rep(i, 0, 3) {
+		rep(j, 0, 3) {
+			now[i][j] = nxt();
+		}
+	}
+	stack<int> q;
+	q.push(toint(fin));
+	vis.insert(toint(fin));
+	int cnt = 0;
+	while (q.size()) {
+		stack<int> nq;
+		while (q.size()) {
+			auto tmp = q.top();
+			q.pop();
+			auto x = tovvi(tmp);
+			if (x == now) {
+				cout << cnt;
+				return;
+			}
+			rep(i, 0, 3) {
+				rep(j, 0, 3) {
+					if (x[i][j]) continue;
+					for (int d = -3; d < 4; d += 2) {
+						int dx = i + d % 3, dy = j + d / 2;
+						if (dx < 0 || dx > 2 || dy < 0 || dy > 2) continue;
+						swap(x[i][j], x[dx][dy]);
+						int y = toint(x);
+						if (!vis.count(y)) {
+							nq.push(y);
+							vis.insert(y);
+						}
+						swap(x[i][j], x[dx][dy]);
 					}
 				}
 			}
 		}
+		swap(q, nq);
+		cnt++;
 	}
-    
-	if (!visited.count(TARGET)) cout << -1 << "\n";
-	else cout << visited[TARGET] << "\n";
-    
-	return 0;
+	cout << -1;
+}
+
+int main() {
+	cin.tie(NULL);
+	ios::sync_with_stdio(false);
+
+	int tc = 1;
+	rep(i, 0, tc) {
+		Solve(i + 1);
+	}
 }
