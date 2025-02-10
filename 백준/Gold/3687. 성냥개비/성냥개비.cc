@@ -1,54 +1,46 @@
 #include <iostream>
-#include <vector>
-#include <string>
-#include <algorithm>
-#define MAX_N 101
-
+#define M 101
 using namespace std;
 
-//성냥의 개수로 만들 수 있는 1의 자리의 모음. 9개부터는 두 자리 수가 최소가 된다.
+int T,n;
+int num[9] = {0,0,1,7,4,2,0,8,10};
+long long Min_Dp[M];
 
-int match_min[9] = {0,0,1,7,4,2,0,8,10};
-long long dp[MAX_N];
+void Min_Calculate(){
+    for(int i=1; i<9; i++){
+        Min_Dp[i] = num[i];
+    }
+    Min_Dp[6]=6;
+    
+    for(int i=9; i<M; i++){
+        Min_Dp[i]=Min_Dp[i-2]*10 + num[2];
+        
+        for(int j=3; j<8; j++){
+            Min_Dp[i] = min(Min_Dp[i],Min_Dp[i-j]*10 + num[j]);
+        }
+    }
+}
 
 int main(){
-    ios::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL);
+    Min_Calculate();
+    cin>>T;
     
-    //dp 배열을 미리 작성한다.
-    for(int i=1; i<9; i++){
-        dp[i]=match_min[i];
-    }
-    dp[6]=6;
-    
-    for(int i=9; i<=100; i++){
-        dp[i] = dp[i-2]*10 + match_min[2];
-        for(int j=3; j<8; j++){
-            dp[i]=min(dp[i], dp[i-j]*10 + match_min[j]);
-        }
-    }
-    
-    int testCase;
-    cin>>testCase;
-    while(testCase--){
-        int matches_have;
-        cin>>matches_have;
+    while(T--){
+        cin>>n;
+        cout<<Min_Dp[n]<<" ";
         
-        //가장 작은 수
-        cout<< dp[matches_have]<<" ";
-        
-        //가장 큰 수 
-        if(matches_have%2==0){
-            for(int i=0; i<(matches_have/2); i++){
-                cout<<"1";
+        string Max="";
+        while(n){
+            if(n%2!=0){
+                cout<<7;
+                n-=3;
+            }
+            else{
+                cout<<1;
+                n-=2;
             }
         }
-        else{
-            cout<<"7";
-            for(int i=0; i<(matches_have/2)-1;i++){
-                cout<<"1";
-            }
-        }
+        
         cout<<"\n";
     }
-    return 0;
 }
