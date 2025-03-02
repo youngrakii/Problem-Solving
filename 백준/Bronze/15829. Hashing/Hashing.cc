@@ -1,21 +1,26 @@
 #include <iostream>
+#include <string>
 #include <cmath>
+
 using namespace std;
 
-string str;
-char c;
-int main(){
-    int L;
-    long long hash = 0;
-    scanf("%d",&L);
-    cin >> str;
+string s;
 
-    for(int i=0; i<str.size(); i++){
-        c = str[i];
-        hash += (c - 96) * pow(31, i);
-    }
-
-    printf("%lld\n", hash);
-
-    return 0;
+int main()
+{
+	int l;
+	long long m = 1234567891;
+	long long r = 1;
+	long long sum = 0;
+    
+	cin >> l;
+	cin >> s;
+    
+	for (int i = 0; i < l; i++)
+	{
+		sum += ((long(s[i]) - 96) * r) % m;
+		r = (r*31) % m;
+	}
+    
+	cout << sum % m;
 }
