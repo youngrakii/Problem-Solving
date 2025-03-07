@@ -7,7 +7,7 @@ using namespace std;
 int dy[4]={-1,0,1,0};
 int dx[4]={0,1,0,-1};
 
-int BFS(vector<vector<int>> maps){
+int BFS(vector<vector<int>>& maps){
     queue<pair<int,int>> q;
     int n=maps.size();
     int m=maps[0].size();
