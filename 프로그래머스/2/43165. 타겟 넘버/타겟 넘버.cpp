@@ -3,23 +3,24 @@
 
 using namespace std;
 
-int answer=0;
-
-void get_target_number(vector<int> numbers, int target, int sum, int index){
-    //종료 조건
-    if(index == numbers.size()){
-        if(sum==target){
-            answer++;
+//DFS풀이
+void dfs(vector<int> numbers, int& answer, int target, int count=0, int sum=0){
+    if(count == numbers.size()-1){
+            if(target==sum+numbers[count]){
+                answer++;
+            }
+            if(target==sum-numbers[count]){
+                answer++;
+            }
+            return;
         }
-        //같지 않을 때도 return
-        return;
-    }
-    //종료 조건이 만족되지 않으면 계속 탐색
-    get_target_number(numbers, target, sum+numbers[index], index+1);
-    get_target_number(numbers, target, sum-numbers[index], index+1);
+    
+    dfs(numbers, answer, target, count+1, sum+numbers[count]);
+    dfs(numbers, answer, target, count+1, sum-numbers[count]);
 }
 
 int solution(vector<int> numbers, int target) {
-    get_target_number(numbers, target, 0, 0);
+    int answer = 0;
+    dfs(numbers,answer,target);
     return answer;
 }
