@@ -1,77 +1,64 @@
 #include <iostream>
 #include <vector>
 #include <algorithm>
-
+#include <string>
+#include <queue>
+#include <tuple>
 using namespace std;
-
 int n;
+int adj[400][400];
+int water[400];
+bool chk[400];
+int cnt = 0, ans = 0;
 
-int mat[301][301];
-int parents[301];
-vector<pair<int,pair<int,int>>> edges;
+priority_queue<tuple<int, int, int>, vector<tuple<int, int, int>>, greater<tuple<int, int, int>>> pq;
 
-bool cmp(pair<int, pair<int,int>> a, pair<int,pair<int,int>> b){
-	return a.first<b.first;
-}
+int main()
+{
+    ios_base::sync_with_stdio(0);
+    cin.tie(0);
 
-int get_parent(int a){
-	if(parents[a]==a) return a;
-	return parents[a] = get_parent(parents[a]);
-}
+    cin >> n;
+    for (int i = 1; i <= n; i++)
+    {
+        cin >> water[i];
+        pq.push({water[i], i, i});
+    }
 
-void union_parents(int a, int b){
-	a=get_parent(a);
-	b=get_parent(b);
+    for (int i = 1; i <= n; i++)
+        for (int j = 1; j <= n; j++)
+            cin >> adj[i][j];
 
-	if(a>b) parents[a]=b;
-	else parents[b]=a;
-}
+    int cost_, a_, b_;
+    tie(cost_, a_, b_) = pq.top();
+    pq.pop();
+    chk[a_] = true;
+    ans += cost_;
 
-void solution(){
-	sort(edges.begin(), edges.end(), cmp);
-	for(int i=0; i<=n; i++) parents[i]=i;
+    for (int nxt = 1; nxt <= n; nxt++)
+    {
+        if (nxt == a_)
+            continue;
+        pq.push({adj[a_][nxt], a_, nxt});
+    }
 
-	int sum=0;
-	for(int i=0; i<edges.size(); i++){
-		int node1 = edges[i].second.first;
-		int node2 = edges[i].second.second;
-		int cost = edges[i].first;
+    while (cnt < n - 1)
+    {
+        int cost, a, b;
+        tie(cost, a, b) = pq.top();
+        pq.pop();
+        if (chk[b])
+            continue;
 
-		if(get_parent(node1) != get_parent(node2)){
-			union_parents(node1, node2);
-			sum+=cost;
-		}
-	}
+        chk[b] = true;
+        ans += cost;
+        cnt++;
 
-	cout<<sum;
-
-
-}
-int main() {
-	ios_base::sync_with_stdio(0);
-	cin.tie(0);
-	cout.tie(0);
-
-	cin>>n;
-
-	int cost;
-	for(int i=1; i<=n; i++){
-		cin>>cost;
-		edges.push_back({cost,{0,i}});
-	}
-
-	for(int i=1; i<=n; i++){
-		for(int j=1; j<=n; j++){
-			cin>>mat[i][j];
-		}
-	}
-
-	for(int i=1; i<=n; i++){
-		for(int j=i+1; j<=n; j++){
-			edges.push_back({mat[i][j],{i,j}});
-		}
-	}
-
-	solution();
-	return 0;
+        for (int nxt = 1; nxt <= n; nxt++)
+        {
+            if (!chk[nxt] && nxt != b)
+                pq.push({adj[b][nxt], b, nxt});
+        }
+    }
+    cout << ans;
 }
