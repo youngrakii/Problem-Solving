@@ -1,29 +1,27 @@
 #include <string>
 #include <vector>
-#include <algorithm>
+#include <iostream>
+
+#define MAX 9
 
 using namespace std;
 
-int res;
-bool visited[9];
+int answer = 0;
+bool visited[MAX]={0};
 
-int dfs(vector<vector<int>> dungeons, int k, int cnt){
-    res = max(res, cnt); // 최대 던전 수
+void dfs(int cnt, int k, vector<vector<int>> dungeons){
+    if(cnt>answer) answer = cnt;
     
     for(int i=0; i<dungeons.size(); i++){
-        // 방문 || 최소 필요도 > 현재 피로도
-        if(visited[i] || dungeons[i][0] > k) continue;
-        
-        visited[i] = 1;
-        dfs(dungeons, k - dungeons[i][1], cnt+1); // 현재 피로도 - 소모 피로도
-        visited[i] = 0;
+        if(!visited[i]&&dungeons[i][0]<=k){
+            visited[i]=true;
+            dfs(cnt+1, k-dungeons[i][1],dungeons);
+            visited[i]=false;
+        }
     }
-    return res;
 }
 
 int solution(int k, vector<vector<int>> dungeons) {
-    int answer = -1;
-    
-    answer = dfs(dungeons, k, 0);
+    dfs(0,k,dungeons);
     return answer;
 }
