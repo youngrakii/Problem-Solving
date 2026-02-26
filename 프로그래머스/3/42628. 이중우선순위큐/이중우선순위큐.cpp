@@ -24,8 +24,7 @@ vector<int> solution(vector<string> operations)
                 temp.erase(min_element(temp.begin(), temp.end()));
         }
     }
-
-    priority_queue<int, vector<int>, greater<int>> pq1;
+       priority_queue<int, vector<int>, greater<int>> pq1;
     priority_queue<int, vector<int>, less<int>> pq2;
 
     for (const auto& val : temp)
