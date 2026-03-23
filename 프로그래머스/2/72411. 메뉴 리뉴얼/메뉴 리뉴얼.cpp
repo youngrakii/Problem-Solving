@@ -1,43 +1,46 @@
 #include <string>
 #include <vector>
-#include <unordered_map>
 #include <algorithm>
+#include <unordered_map>
 
 using namespace std;
 
-unordered_map<string, int> m;
+unordered_map<string,int> combi_map;
 
-void dfs(int idx, string tmp, string order){
-    if(tmp.size()>order.size()){
+void combine(string order, string temp, int idx, int target_len){
+    if(temp.length()==target_len){
+        combi_map[temp]++;
         return;
+      
     }
-    m[tmp]++;
-    for(int i=idx; i<order.size(); i++){
-        dfs(i+1,tmp+order[i],order);
+    for(int i=idx; i<order.length(); i++){
+        combine(order,temp+order[i],i+1,target_len);
     }
 }
 vector<string> solution(vector<string> orders, vector<int> course) {
     vector<string> answer;
-    for(auto order : orders){
-        sort(order.begin(),order.end());
-        dfs(0,"",order);
-    }
     
-    for(auto setSize:course){
-        int mostOrdered=0;
-        for(auto menu:m){
-            if(menu.first.size()==setSize){
-                mostOrdered=max(mostOrdered,menu.second);
+    for(int len:course){
+        combi_map.clear();
+        for(string order:orders){
+            sort(order.begin(),order.end());
+            if(order.length()>=len){
+                combine(order,"",0,len);
             }
         }
         
-        if(mostOrdered<=1) continue;
-        for(auto menu:m){
-            if(menu.first.size()==setSize && menu.second == mostOrdered){
-                answer.push_back(menu.first);
-            }
+        int max_val=0;
+        for(auto it:combi_map){
+            max_val = max(max_val, it.second);
         }
         
+        if(max_val>=2){
+            for(auto it:combi_map){
+                if(it.second == max_val){
+                    answer.push_back(it.first);
+                }
+            }
+        }
     }
     
     sort(answer.begin(), answer.end());
