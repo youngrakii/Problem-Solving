@@ -1,46 +1,47 @@
 #include <string>
 #include <vector>
-#include <queue>
 #include <cmath>
+#include <algorithm>
 
 using namespace std;
 
-int gap(vector<vector<int>> v){
-    vector<int> visited(v.size());
-    queue<int> q;
+
+int dfs(int node, vector<vector<int>>& graph, vector<bool>& visited){
+    visited[node]=true;
+    int count=1;
     
-    q.push(1);
-    int cnt=0;
-    
-    while(!q.empty()){
-        int cur=q.front();
-        q.pop();
-        if(visited[cur]==1) continue;
-        visited[cur]=1;
-        cnt++; //이어진 송전탑의 개수
-        for(int i=0; i<v[cur].size(); i++){
-            q.push(v[cur][i]);
+    for(int next:graph[node]){
+        if(!visited[next]){
+            count+=dfs(next,graph,visited);
         }
     }
-    int cnt2=v.size()-1-cnt;
-    return abs(cnt2-cnt);
+    
+    return count;
+    
+    
 }
-
-int solution(int n, vector<vector<int>> wires){
-    int answer=100;
-   
+int solution(int n, vector<vector<int>> wires) {
+    int answer = n;
+    
     for(int i=0; i<wires.size(); i++){
-        vector<vector<int>> v(n+1);
+        vector<vector<int>> graph(n+1);
+        
         for(int j=0; j<wires.size(); j++){
             if(i==j) continue;
-            int stt=wires[j][0];
-            int end=wires[j][1];
-            v[stt].push_back(end);
-            v[end].push_back(stt);
+            
+            int a= wires[j][0];
+            int b=wires[j][1];
+            
+            graph[a].push_back(b);
+            graph[b].push_back(a);
         }
-        answer=min(answer,gap(v));
-        //v.clear();
+        
+        vector<bool> visited(n+1,false);
+        
+        int count = dfs(1,graph,visited);
+        int other = n-count;
+        
+        answer = min(answer,abs(count-other));
     }
-    
     return answer;
 }
