@@ -17,7 +17,7 @@ string solution(string new_id) {
     
     string condensed="";
     for(int i=0; i<new_id.size(); i++){
-        if(i>0&& new_id[i]=='.'&& new_id[i-1]=='.') continue;
+        if(new_id[i]=='.'&& new_id[i-1]=='.') continue;
         condensed+=new_id[i];
     }
     new_id = condensed;
@@ -32,8 +32,11 @@ string solution(string new_id) {
         if(new_id.back()=='.') new_id.pop_back();
     }
     
-    while(new_id.size()<3){
-        new_id+=new_id.back();
+    if(new_id.size()<3){
+        while(true){
+            new_id+=new_id.back();
+            if(new_id.size()==3) break;
+        }
     }
     
     return new_id;
