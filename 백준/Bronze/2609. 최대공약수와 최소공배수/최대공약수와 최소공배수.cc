@@ -14,12 +14,6 @@ int main() {
 	int M ,N;
 	cin>>M>>N;
 
-	if(M<N){
-		int temp = M;
-		M =N;
-		N= temp;
-	}
-
 	cout<<gcd(M,N)<<"\n"<<lcm(M,N);
 	return 0;
 }
