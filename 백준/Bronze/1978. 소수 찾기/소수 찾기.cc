@@ -12,7 +12,7 @@ bool isPrime(int n){
 	for(int i=1; i<=n; i++){
 		if(n%i==0) cnt++;
 	}
-
+	
 	if(cnt==2) return true;
 	else return false;
 }
@@ -23,17 +23,15 @@ int main() {
 	// 코드 작성
 	int T;
 	cin>>T;
-	vector<int> v;
-
+	vector<int> v(T);
 
 	for(int i=0; i<T; i++){
-		int k;
-		cin>>k;
-		v.push_back(k);
+		cin>>v[i];
 	}
 
 
 	int count=0;
+
 	for(int i=0; i<T; i++){
 		if(isPrime(v[i])) count++;
 	}
