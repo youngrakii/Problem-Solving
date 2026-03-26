@@ -1,37 +1,35 @@
 #include <iostream>
-#include <vector>
 using namespace std;
 
+bool isPrime(int n) {
+    if (n < 2) return false;
+
+    for (int i = 2; i * i <= n; i++) {
+        if (n % i == 0) return false;
+    }
+    return true;
+}
+
 int main() {
-	// 코드 작성
-	int M,N;
-	cin>>M>>N;
+    int M, N;
+    cin >> M >> N;
 
-	vector<int> v;
+    int sum = 0;
+    int minPrime = -1;
 
-	for(int i=M; i<=N; i++){
-		int cnt=0;
-		for(int j=1; j<=i; j++){
-			if(i%j==0){
-				cnt++;
-			}
-		}
-		if(cnt==2) v.push_back(i);
-	}
+    for (int i = M; i <= N; i++) {
+        if (isPrime(i)) {
+            sum += i;
+            if (minPrime == -1) minPrime = i;
+        }
+    }
 
-	int sum=0;
+    if (minPrime == -1) {
+        cout << -1 << "\n";
+    } else {
+        cout << sum << "\n";
+        cout << minPrime << "\n";
+    }
 
-	if(!v.empty()){
-		for(int i=0; i<v.size(); i++){
-			sum+=v[i];
-		}
-
-		cout<<sum<<"\n";
-		cout<<v[0]<<"\n";
-
-	}
-	else cout<<"-1"<<"\n";
-
-
-	return 0;
+    return 0;
 }
