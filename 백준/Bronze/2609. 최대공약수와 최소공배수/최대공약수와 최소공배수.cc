@@ -1,17 +1,25 @@
 #include <iostream>
 using namespace std;
 
-long long gcd(long long a, long long b){
-	return b==0 ? a:gcd(b,a%b);
+
+int gcd(int m, int n){
+	return n==0 ? m : gcd(n,m%n);
 }
 
-long long lcm(long long a, long long b){
-	return a/gcd(a,b)*b;
+int lcm(int m, int n){
+	return m * n / gcd(m,n);
 }
-
 int main() {
-	int a, b;
-	cin>>a>>b;
-	cout<<gcd(a,b)<<"\n"<<lcm(a,b);
+	// 코드 작성
+	int M ,N;
+	cin>>M>>N;
+
+	if(M<N){
+		int temp = M;
+		M =N;
+		N= temp;
+	}
+
+	cout<<gcd(M,N)<<"\n"<<lcm(M,N);
 	return 0;
 }
