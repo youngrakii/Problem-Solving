@@ -1,23 +1,24 @@
 #include <iostream>
-#include <vector>
-#include <algorithm>
-
 using namespace std;
 
 int main() {
-	// 코드 작성
-	int N;
-	cin>>N;
-	
-	vector<int> v;
-	for(int i=0; i<N; i++){
-		int k;
-		cin>>k;
-		v.push_back(k);
-	}
+    int N;
+    cin >> N;
 
-	sort(v.begin(),v.end());
+    int x;
+    cin >> x;
 
-	cout<<v[0]<<" "<<v[N-1]<<"\n";
-	return 0;
+    int minValue = x;
+    int maxValue = x;
+
+    for (int i = 1; i < N; i++) {
+        cin >> x;
+
+        if (x < minValue) minValue = x;
+        if (x > maxValue) maxValue = x;
+    }
+
+    cout << minValue << " " << maxValue << "\n";
+
+    return 0;
 }
