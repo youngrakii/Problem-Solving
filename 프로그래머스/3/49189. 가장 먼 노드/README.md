@@ -1,10 +1,10 @@
 # [level 3] 가장 먼 노드 - 49189 
 
-[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/49189?language=cpp) 
+[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/49189) 
 
 ### 성능 요약
 
-메모리: 14 MB, 시간: 10.29 ms
+메모리: 13.9 MB, 시간: 9.96 ms
 
 ### 구분
 
@@ -16,7 +16,7 @@
 
 ### 제출 일자
 
-2025년 02월 25일 18:49:19
+2026년 03월 27일 22:18:19
 
 ### 문제 설명
 

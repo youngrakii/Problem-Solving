@@ -1,42 +1,44 @@
-#include <algorithm>
-#include <queue>
+#include <string>
 #include <vector>
+#include <queue>
 
 using namespace std;
 
-int solution(int n, vector<vector<int>> edge){
+int solution(int n, vector<vector<int>> edge) {
     vector<vector<int>> graph(n+1);
-    vector<int> counts(n+1,0);
-    vector<bool> visited(n+1,false);
-    queue<int> queue;
     
-    int answer=0;
-    for(int i=0; i<edge.size(); i++){
-        graph[edge[i][0]].push_back(edge[i][1]);
-        graph[edge[i][1]].push_back(edge[i][0]);
+    for(auto e:edge){
+        int a = e[0];
+        int b=e[1];
+        graph[a].push_back(b);
+        graph[b].push_back(a);
     }
     
-    queue.push(1);
-    visited[1]=true;
+    vector<int> dist(n+1, -1);
+    queue<int> q;
     
-    while(!queue.empty()){
-        int node=queue.front();
-        queue.pop();
+    q.push(1);
+    dist[1]=0;
+    
+    while(!q.empty()){
+        int cur = q.front();
+        q.pop();
         
-        for(int i=0; i<graph[node].size(); i++){
-            if(!visited[graph[node][i]]){
-                int currentCount = counts[node]+1;
-                visited[graph[node][i]]=true;
-                counts[graph[node][i]]=currentCount;
-                queue.push(graph[node][i]);
-            }
+        for(int next:graph[cur]){
+            if(dist[next]!=-1) continue;
+            dist[next] = dist[cur]+1;
+            q.push(next);
         }
     }
     
-    sort(counts.begin(),counts.end(),greater<int>());
-    for(auto cnt:counts){
-        if(counts[0]!=cnt) break;
-        answer++;
+    int maxDist =0;
+    for(int i=1; i<=n; i++){
+        if(dist[i]>maxDist) maxDist = dist[i];
+    }
+    
+    int answer=0;
+    for(int i=1; i<=n; i++){
+        if(dist[i]==maxDist) answer++;
     }
     
     return answer;
