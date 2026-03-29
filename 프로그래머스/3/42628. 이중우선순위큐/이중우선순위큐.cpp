@@ -2,32 +2,37 @@
 #include <string>
 #include <vector>
 #include <queue>
+#include <sstream>
 using namespace std;
 
 vector<int> solution(vector<string> operations) 
 {
     vector<int> temp, answer;
 
-    for (const auto& str : operations)
+    for (auto str : operations)
     {
-        string tmp = str.substr(2);
+        stringstream ss(str);
+        char op;
+        string num;
+        
+        ss>>op>>num;
 
-        if (str[0] == 'I')
-            temp.push_back(stoi(tmp));
+        if (op == 'I')
+            temp.push_back(stoi(num));
 
         else
         {
-            if (tmp == "1" && !temp.empty())
+            if (num == "1" && !temp.empty())
                 temp.erase(max_element(temp.begin(), temp.end()));
 
-            else if(tmp == "-1" && !temp.empty())
+            else if(num == "-1" && !temp.empty())
                 temp.erase(min_element(temp.begin(), temp.end()));
         }
     }
        priority_queue<int, vector<int>, greater<int>> pq1;
     priority_queue<int, vector<int>, less<int>> pq2;
 
-    for (const auto& val : temp)
+    for (auto val : temp)
     {
         pq1.push(val);
         pq2.push(val);
