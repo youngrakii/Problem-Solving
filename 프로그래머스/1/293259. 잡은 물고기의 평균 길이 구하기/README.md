@@ -1,6 +1,6 @@
 # [level 1] 잡은 물고기의 평균 길이 구하기 - 293259 
 
-[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/293259?language=mysql) 
+[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/293259) 
 
 ### 성능 요약
 
@@ -12,11 +12,11 @@
 
 ### 채점결과
 
-합계: 100.0 / 100.0
+합계: true / 100.0
 
 ### 제출 일자
 
-2025년 03월 05일 10:48:17
+2026년 04월 09일 03:12:47
 
 ### 문제 설명
 
