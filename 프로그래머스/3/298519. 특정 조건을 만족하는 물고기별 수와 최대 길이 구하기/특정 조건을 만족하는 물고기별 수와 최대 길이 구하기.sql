@@ -1,10 +1,11 @@
--- 코드를 작성해주세요
-WITH TEMP AS(
-    SELECT ID, FISH_TYPE,
-    		(CASE
-            	WHEN LENGTH<10||LENGTH IS NULL THEN 10
-             	ELSE LENGTH
-            END) AS LENGTH
+WITH TEMP AS (
+    SELECT
+        ID,
+        FISH_TYPE,
+        CASE
+            WHEN LENGTH < 10 OR LENGTH IS NULL THEN 10
+            ELSE LENGTH
+        END AS LENGTH
     FROM FISH_INFO
 )
 
