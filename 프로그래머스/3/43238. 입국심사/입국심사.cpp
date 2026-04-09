@@ -7,29 +7,25 @@ using namespace std;
 long long solution(int n, vector<int> times) {
     long long answer = 0;
     
-    sort(times.begin(), times.end());
+    sort(times.begin(),times.end());
+    long long left =1;
+    long long right = (long long)times.back()*n;
     
-    long long left = 1;
-    long long right = (long long)times.back() * n;
-    
-    while (left <= right) {
-        long long mid = (left + right) / 2;
+    while(left<=right){
+        long long mid = (left+right)/2;
+        long long sum=0;
         
-        long long people = 0;
-        for (int t : times) {
-            people += mid / t;
-            
-            // 오버플로우 방지 + 더 셀 필요 없을 때
-            if (people >= n) break;
+        for(long long time:times){
+            sum+=mid/time;
+            //if(sum>=n) break;
         }
         
-        if (people >= n) {
+        if(sum>=n){
             answer = mid;
-            right = mid - 1;
-        } else {
-            left = mid + 1;
+            right = mid-1;
+        }else{
+            left = mid+1;
         }
     }
-    
     return answer;
 }
