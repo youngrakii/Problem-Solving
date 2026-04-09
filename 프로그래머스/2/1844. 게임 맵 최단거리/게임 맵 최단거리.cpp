@@ -1,38 +1,47 @@
-#include<cstring>
-#include<algorithm>
-#include<queue>
+#include <vector>
+#include <queue>
+
 using namespace std;
 
-bool vst[104][104];
-int dist[104][104];
-int dx[4] = {1,-1,0,0};
-int dy[4] = {0,0,1,-1};
-queue<pair<int,int>> q;
-
-int solution(vector<vector<int>> m)
+int solution(vector<vector<int> > maps)
 {
-    int ans = 0;
-    int ns = m.size();
-    int ms = m[0].size();
-    memset(dist, -1, sizeof(dist));
-    q.push({0,0});
-    vst[0][0] = 1;
-    dist[0][0] = 1;
-    while(!q.empty()){
-        auto cur = q.front(); q.pop();
-        if(cur.first == ns - 1 && cur.second == ms - 1) {
-            return dist[ns-1][ms-1];
-        }
-        for(int dir=0; dir<4; dir++){
-            int nx = cur.second + dx[dir];
-            int ny = cur.first + dy[dir];
-            if(nx < 0 || ny < 0 || nx >= ms || ny >= ns || vst[ny][nx] || m[ny][nx] == 0 || dist[ny][nx] != -1) continue;
-            q.push({ny,nx});
-            vst[ny][nx];
-            dist[ny][nx] = dist[cur.first][cur.second] + 1;
+    int n = maps.size();
+    int m = maps[0].size();
+    
+    queue<pair<int, int>> q;
+    
+    // 상하좌우 이동
+    int dx[4] = {-1, 1, 0, 0};
+    int dy[4] = {0, 0, -1, 1};
+    
+    // 시작점
+    q.push({0, 0});
+    
+    while (!q.empty()) {
+        int x = q.front().first;
+        int y = q.front().second;
+        q.pop();
+        
+        for (int i = 0; i < 4; i++) {
+            int nx = x + dx[i];
+            int ny = y + dy[i];
+            
+            // 맵 범위를 벗어나면 무시
+            if (nx < 0 || nx >= n || ny < 0 || ny >= m) continue;
+            
+            // 벽이면 이동 불가
+            if (maps[nx][ny] == 0) continue;
+            
+            // 아직 방문하지 않은 길이면
+            if (maps[nx][ny] == 1) {
+                maps[nx][ny] = maps[x][y] + 1;
+                q.push({nx, ny});
+            }
         }
     }
-    if(dist[ns-1][ms-1] == -1) ans = -1;
-    else ans = dist[ns-1][ms-1];
-    return ans;
+    
+    // 도착점에 도달 못했다면
+    if (maps[n - 1][m - 1] == 1) return -1;
+    
+    return maps[n - 1][m - 1];
 }
