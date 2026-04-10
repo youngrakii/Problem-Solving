@@ -1,39 +1,48 @@
 #include <iostream>
-#include <cmath>
-
+#include <vector>
 using namespace std;
 
-int col[16];
-int n;
-int ans=0;
 
-void queen(int x){
-    if(n==x){
-        ans++;
-    }else{
-        for(int i=0; i<n; i++){
-            col[x]=i; //퀸의 위치를 정함
-            bool can = true;
-            for(int j=0; j<x; j++){
-                if(col[x]==col[j]||abs(col[x]-col[j])==x-j){
-                    can = false;
-                    break;
-                }
-            }
-            if(can){ //충돌하지 않는다면 다음 행으로 넘어감.
-                queen(x+1);
-            }
-        }
-    }
-} //백트래킹
+vector<bool> colUsed;
+vector<bool> diag1Used;
+vector<bool> diag2Used;
+int answer=0;
+int N;
+
+void dfs(int row){
+	if(row==N){
+		answer++;
+		return;
+	}
+
+	for(int col=0; col<N; col++){
+		if(colUsed[col]||diag1Used[row-col+N-1]||diag2Used[row+col]) continue;
+		
+		colUsed[col]=true;
+		diag1Used[row-col+N-1]=true;
+		diag2Used[row+col]=true;
+		dfs(row+1);
+		diag2Used[row+col]=false;
+		diag1Used[row-col+N-1]=false;
+		colUsed[col]=false;
+
+	}
+
+	
+	
+}
+
+int main() {
+	// 코드 작성
+	cin>>N;
+	colUsed.assign(N,false);
+	diag1Used.assign(2*N-1,false);
+	diag2Used.assign(2*N-1,false);
+
+	dfs(0);
+
+	cout<<answer<<'\n';
 
 
-int main(){
-    ios_base::sync_with_stdio(false);
-    cin.tie(0);
-    cout.tie(0);
-    cin>>n;
-    queen(0);
-    cout<<ans<<"\n";
-    return 0;
+	return 0;
 }
