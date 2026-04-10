@@ -17,27 +17,25 @@ string solution(string new_id) {
     
     string condensed="";
     for(int i=0; i<new_id.size(); i++){
-        if(new_id[i]=='.'&& new_id[i-1]=='.') continue;
+        if(i>0&&new_id[i]=='.'&& new_id[i-1]=='.') continue;
         condensed+=new_id[i];
     }
     new_id = condensed;
     
-    if(!new_id.empty() && new_id.front()=='.') new_id.erase(0,1);
-    if(!new_id.empty() && new_id.back()=='.') new_id.pop_back();
+    if(new_id.front()=='.') new_id.erase(0,1);
+    if(new_id.back()=='.') new_id.pop_back();
     
-    if(new_id.empty()) new_id = "a";
+    if(new_id.empty()) new_id += "a";
     
     if(new_id.size()>=16) {
-        new_id=new_id.substr(0,15);
+        new_id.resize(15);
         if(new_id.back()=='.') new_id.pop_back();
     }
     
-    if(new_id.size()<3){
-        while(true){
-            new_id+=new_id.back();
-            if(new_id.size()==3) break;
-        }
+    while(new_id.size()<3){
+        new_id+=new_id.back();
     }
+    
     
     return new_id;
 }
