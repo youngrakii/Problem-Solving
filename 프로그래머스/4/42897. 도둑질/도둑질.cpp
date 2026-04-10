@@ -1,32 +1,35 @@
 #include <string>
 #include <vector>
-#define MAX 1000010
+#include <algorithm>
 
 using namespace std;
 
-int DP[MAX];
-int DP2[MAX];
-
-int Bigger(int A, int B){
-    if(A>B) return A;
-    return B;
-}
-
 int solution(vector<int> money) {
-    int n=money.size()-1;
-    DP[0]=money[0];
-    DP[1]=DP[0];
-    DP2[0]=0;
-    DP2[1]=money[1];
+    int n = money.size();
     
+    //집이 1개인 경우
+    if(n==1) return money[0];
+    
+    //dp1: 첫 집을 포함하는 경우 -> 마지막 집은 제외
+    vector<int> dp1(n,0);
+    
+    //dp2: 첫 집을 포함하지 않는 경우 -> 마지막 집까지 가능
+    vector<int> dp2(n,0);
+    
+    //첫 집 포함
+    dp1[0]=money[0];
+    dp1[1]=money[0];
+    for(int i=2; i<n-1; i++){
+        dp1[i]=max(dp1[i-1],dp1[i-2]+money[i]);
+    }
+    
+    
+    //첫 집 제외
+    dp2[0]=0;
+    dp2[1]=money[1];
     for(int i=2; i<n; i++){
-        DP[i]=Bigger(DP[i-2]+money[i], DP[i-1]);
+        dp2[i]=max(dp2[i-1],dp2[i-2]+money[i]);
     }
     
-    for(int i=2; i<=n; i++){
-        DP2[i]=Bigger(DP2[i-2]+money[i],DP2[i-1]);
-    }
-    
-    return Bigger(DP[n-1], DP2[n]);
-    
+    return max(dp1[n-2], dp2[n-1]);
 }
