@@ -26,11 +26,9 @@ int solution(vector<vector<int> > maps)
             int nx = x + dx[i];
             int ny = y + dy[i];
             
-            // 맵 범위를 벗어나면 무시
-            if (nx < 0 || nx >= n || ny < 0 || ny >= m) continue;
-            
-            // 벽이면 이동 불가
-            if (maps[nx][ny] == 0) continue;
+            // 맵 범위를 벗어나면 무시, 벽이면 이동 불가
+            if (nx < 0 || nx >= n || ny < 0 || ny >= m || maps[nx][ny]==0) continue;
+           
             
             // 아직 방문하지 않은 길이면
             if (maps[nx][ny] == 1) {
