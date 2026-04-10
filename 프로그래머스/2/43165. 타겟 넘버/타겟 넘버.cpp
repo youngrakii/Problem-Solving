@@ -3,24 +3,18 @@
 
 using namespace std;
 
-//DFS풀이
-void dfs(vector<int> numbers, int& answer, int target, int count=0, int sum=0){
-    if(count == numbers.size()-1){
-            if(target==sum+numbers[count]){
-                answer++;
-            }
-            if(target==sum-numbers[count]){
-                answer++;
-            }
-            return;
-        }
-    
-    dfs(numbers, answer, target, count+1, sum+numbers[count]);
-    dfs(numbers, answer, target, count+1, sum-numbers[count]);
+int answer=0;
+
+void dfs(vector<int>& numbers, int idx,int result, int target){
+    if(idx==numbers.size()){
+        if(result==target) answer++;
+        return;
+    }
+    dfs(numbers,idx+1,result+numbers[idx],target);
+    dfs(numbers,idx+1,result-numbers[idx],target);
 }
 
 int solution(vector<int> numbers, int target) {
-    int answer = 0;
-    dfs(numbers,answer,target);
+    dfs(numbers,0,0,target);
     return answer;
 }
